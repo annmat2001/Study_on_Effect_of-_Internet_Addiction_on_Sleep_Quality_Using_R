@@ -1,0 +1,67 @@
+---
+title: "CAC-2"
+author: "Ann Mathew"
+date: "2024-01-09"
+output: html_document
+---
+```{r}
+library(readxl)
+
+# Specify the path to your Excel file
+excel_file_path <- "C:\\Users\\Ann Mathew\\Desktop\\Effect of Internet Addiction on Sleep Quality (Responses) sheet.xlsx"
+
+# Read the Excel file
+data <- read_excel(excel_file_path)
+
+# Print or inspect the data
+print(data)
+```
+
+```{r}
+contingency_table <- table(data$`SQ Level`,data$`IA Level`)
+contingency_table
+```
+```{r}
+chi_square_result <- chisq.test(contingency_table)
+chi_square_result
+```
+```{r}
+cor(data$`IA Value`, data$`SQ Value`)
+```
+```{r}
+contingency_table1<-table(data$Age_Proper,data$`IA Level`)
+contingency_table1
+
+
+chisq.test(contingency_table1)
+
+```
+
+```{r}
+contingency_table2 <-table(data$Gender,data$`SQ Level`)
+contingency_table2
+chisq.test(contingency_table2)
+```
+
+```{r}
+df <- data.frame(
+  Age_Group = factor(data$Age_Proper),
+ Sleep_Hours = data$`13.How many hours of actual sleep did you get each night? (This may be different than the number of hours you spend in bed.)`
+  
+)
+df
+```
+
+```{r}
+shapiro.test(df$Sleep_Hours)
+```
+```{r}
+bartlett.test(Sleep_Hours~Age_Group, data=df)
+```
+```{r}
+anova_test <-aov(Sleep_Hours~Age_Group, data=df)
+summary(anova_test)
+```
+```{R}
+TukeyHSD(anova_test)
+```
